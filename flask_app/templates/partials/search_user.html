@@ -1,0 +1,23 @@
+<div class="search-usuarios">
+    <form action="/buscar_usuarios" method="GET" class="search-form">
+        <input type="search" 
+                name="q" 
+                placeholder="" 
+                autocomplete="off"
+                class="search-input"
+                required>
+        <button type="submit" class="search-btn">Buscar</button>
+    </form>
+
+        <div class="categorias">
+        <a href="/eventos?categoria=arte">Arte</a>
+        <span class="separator">|</span>
+        <a href="/eventos?categoria=musica">Musica</a>
+        <span class="separator">|</span>
+        <a href="/eventos?categoria=performance">Performance</a>
+        <span class="separator">|</span>
+        <a href="/eventos?categoria=tecnologia">Tecnología</a>
+        <span class="separator">|</span>
+        <a href="/eventos?categoria=otros">Otros eventos</a>
+    </div>
+</div>
