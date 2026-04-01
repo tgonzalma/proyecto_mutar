@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="crear-grupo-container">
+    <h1 class="page-titulo">Editar Grupo</h1>
+    
+    {% with messages = get_flashed_messages(category_filter=["grupo"]) %}
+        {% if messages %}
+            <div class="alert">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form action="/actualizar_grupo/{{ grupo.id }}" method="POST" enctype="multipart/form-data" class="crear-grupo-form">
+        
+        <div class="form-group">
+            <label for="foto_portada">Imagen de Portada:</label>
+            {% if grupo.foto_portada %}
+            <div class="preview-img">
+                <img src="{{ url_for('static', filename='img/grupos/' + grupo.foto_portada) }}" alt="Portada actual">
+            </div>
+            {% endif %}
+            <input type="file" id="foto_portada" name="foto_portada" accept="image/*">
+            <small>Deja vacío si no deseas cambiar la imagen</small>
+        </div>
+
+        <div class="form-group">
+            <label for="nombre">Nombre del Grupo:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ grupo.nombre }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required>{{ grupo.descripcion }}</textarea>
+        </div>
+        
+        <div class="form-actions">
+            <input type="submit" value="Guardar Cambios" class="btn-submit">
+            <a href="/perfil_grupo/{{ grupo.id }}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
