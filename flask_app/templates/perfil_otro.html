@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="perfil-otro-container">
+    <div class="perfil-header">
+        <div class="perfil-foto">
+            <div class="foto-placeholder">
+                {% if usuario.foto_perfil %}
+                <img src="{{ url_for('static', filename='img/usuarios/' + usuario.foto_perfil) }}" alt="{{ usuario.nombre }}">
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="perfil-info">
+            <h1 class="perfil-nombre">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+            {% if usuario.nickname %}
+            <p class="perfil-nickname">@{{ usuario.nickname }}</p>
+            {% endif %}
+            {% if usuario.descripcion %}
+            <p class="perfil-descripcion">{{ usuario.descripcion|replace('\n', '<br>')|safe }}</p>
+            {% endif %}
+            <p class="perfil-stats">{{ eventos_creados|length }} eventos creados</p>
+            
+            <div class="perfil-acciones">
+                {% if esta_siguiendo %}
+                <a href="/dejar_seguir/{{ usuario.id }}?from=perfil" class="btn-dejar-seguir-perfil">Dejar de seguir</a>
+                {% else %}
+                <a href="/seguir_usuario/{{ usuario.id }}" class="btn-seguir">Seguir</a>
+                {% endif %}
+                <button class="btn-invitar">Invitar a grupo</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="perfil-tabs">
+        <h2 class="tab-titulo">Eventos del usuario</h2>
+    </div>
+    
+    <div class="perfil-content">
+        {% if eventos_creados %}
+            <div class="eventos-grid">
+            {% for evento in eventos_creados %}
+                <a href="/ver_evento/{{ evento.id }}" class="evento-card-link">
+                    <div class="evento-card-grid">
+                        <div class="evento-portada-grid">
+                            {% if evento.foto_portada %}
+                            <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-eventos">Este usuario no ha creado ningún evento.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
