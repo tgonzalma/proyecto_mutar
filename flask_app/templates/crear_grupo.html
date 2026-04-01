@@ -1,0 +1,30 @@
+    {% extends 'base.html' %}
+
+{% block content %}
+<div class="crear-grupo-container">
+    <h1 class="page-titulo">Crear Grupo</h1>
+    <form action="/formulario_grupo" method="POST" enctype="multipart/form-data" class="crear-grupo-form">
+        
+        <div class="form-group">
+            <label for="foto_portada">Imagen de Portada:</label>
+            <input type="file" id="foto_portada" name="foto_portada" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label for="nombre">Nombre del Grupo:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+        </div>
+        
+        <input type="hidden" name="usuario_creador_id" value="{{ session.usuario_id }}">
+        
+        <div class="form-actions">
+            <input type="submit" value="Crear Grupo" class="btn-submit">
+        </div>
+    </form>
+</div>
+{% endblock %}
