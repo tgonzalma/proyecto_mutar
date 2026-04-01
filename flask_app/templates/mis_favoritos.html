@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mis-favoritos-container">
+    <h1 class="page-titulo">MIS FAVORITOS</h1>
+    
+    {% if eventos_favoritos %}
+        <div class="favoritos-lista">
+        {% for evento in eventos_favoritos %}
+            <div class="favorito-card">
+                <div class="favorito-portada">
+                    {% if evento.foto_portada %}
+                    <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                    {% endif %}
+                </div>
+                
+                <div class="favorito-info">
+                    <h2 class="favorito-nombre"><a href="/ver_evento/{{ evento.id }}">{{ evento.nombre }}</a></h2>
+                    <p class="favorito-creador">Creado por: <strong>{{ evento.creador_nombre }}</strong></p>
+                    <p class="favorito-descripcion">{{ evento.descripcion }}</p>
+                    
+                    <div class="favorito-detalles">
+                        <p><strong>Fecha y Hora:</strong> {{ evento.fecha_evento.strftime('%d/%m/%Y %H:%M') }}</p>
+                        <p><strong>Ubicación:</strong> {{ evento.ubicacion }}, {{ evento.ciudad }}</p>
+                        <p><strong>Tipo:</strong> {{ evento.tipo }}</p>
+                    </div>
+                    
+                    <div class="favorito-acciones">
+                        <form action="/asignar_favorito_grupo" method="POST" class="asignar-form">
+                            <input type="hidden" name="evento_id" value="{{ evento.id }}">
+                            <select name="grupo_id" required class="select-grupo">
+                                <option value="">Asignar a grupo...</option>
+                                {% for grupo in mis_grupos %}
+                                    <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn-asignar">Asignar</button>
+                        </form>
+                        <a href="/eliminar_favorito/{{ evento.id }}" class="btn-eliminar" onclick="return confirm('¿Estás seguro de eliminar este favorito?')">Eliminar favorito</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-favoritos">No tienes eventos favoritos.</p>
+    {% endif %}
+</div>
+{% endblock %}
