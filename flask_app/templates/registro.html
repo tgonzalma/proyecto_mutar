@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Mutar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/side_bar.css">
+</head>
+
+<body>
+
+    {% set current_page = 'registro' %}
+    {% include 'partials/side_nav.html' %}
+        
+        <main class="main-content">
+            {% with mensajes = get_flashed_messages(category_filter=['registro']) %}
+                {% if mensajes  %}
+                    <ul class="error-messages">
+                        {% for mensaje in mensajes%}
+                            <li>{{mensaje}}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <h2 class="form-title">REGISTRARSE</h2>
+            <form action="/registro" method="POST" class="registro-form">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" value="{{datos.get('nombre','')}}">
+                </div>
+                <div class="form-group">
+                    <label>Apellido:</label>
+                    <input type="text" name="apellido" value="{{datos.get('apellido','')}}">
+                </div>
+                <div class="form-group">
+                    <label>NombreUsuario:</label>
+                    <input type="text" name="nombre_usuario" value="{{datos.get('nombre_usuario','')}}">
+                </div>
+                <div class="form-group">
+                    <label>Mail:</label>
+                    <input type="email" name="email" value="{{datos.get('email','')}}">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar contraseña</label>
+                    <input type="password" name="confirmacion">
+                </div>
+                <div class="form-actions">
+                    <input type="submit" value="Registrarse" class="btn-submit">
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+
+</html>

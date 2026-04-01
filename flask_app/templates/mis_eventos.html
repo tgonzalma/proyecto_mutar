@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mis-eventos-container">
+    <h1 class="page-titulo">MIS EVENTOS</h1>
+    
+    {% if eventos_usuario %}
+        <div class="eventos-lista">
+        {% for evento in eventos_usuario %}
+            <div class="evento-card">
+                <div class="evento-portada">
+                    {% if evento.foto_portada %}
+                    <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                    {% endif %}
+                </div>
+                
+                <div class="evento-info">
+                    <h2 class="evento-nombre"><a href="/ver_evento/{{ evento.id }}">{{ evento.nombre }}</a></h2>
+                    <p class="evento-descripcion">{{ evento.descripcion }}</p>
+                    
+                    <div class="evento-detalles">
+                        <p><strong>Fecha y Hora:</strong> {{ evento.fecha_evento.strftime('%d/%m/%Y %H:%M') }}</p>
+                        <p><strong>Ubicación:</strong> {{ evento.ubicacion }}, {{ evento.ciudad }}</p>
+                        <p><strong>Tipo:</strong> {{ evento.tipo }}</p>
+                        <p><strong>Visibilidad:</strong> {{ evento.visibilidad }}</p>
+                        <p><strong>Estado:</strong> {{ evento.estado }}</p>
+                    </div>
+                    
+                    <div class="evento-acciones">
+                        <form action="/asignar_favorito_grupo" method="POST" class="asignar-form">
+                            <input type="hidden" name="evento_id" value="{{ evento.id }}">
+                            <select name="grupo_id" required class="select-grupo">
+                                <option value="">Asignar a grupo...</option>
+                                {% for grupo in mis_grupos %}
+                                    <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn-asignar">Asignar</button>
+                        </form>
+                        <a href="/eliminar_evento/{{ evento.id }}" class="btn-eliminar" onclick="return confirm('¿Estás seguro de eliminar este evento?')">Eliminar evento</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-eventos">No has creado ningún evento.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - Mutar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/editar_perfil.css">
+</head>
+<body>
+    <div class="page-container">
+        <aside class="sidebar">
+            <h1 class="logo"><a href="/home">MUTAR</a></h1>
+            <nav class="nav-menu">
+                <a href="/perfil" class="nav-link">Volver al perfil</a>
+                <a href="/home" class="nav-link">Inicio</a>
+            </nav>
+        </aside>
+
+        <main class="main-content-edit">
+            <div class="edit-container">
+                <h1 class="edit-titulo">EDITAR PERFIL</h1>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'perfil' %}
+                                <p class="flash-message">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <form action="/actualizar_perfil" method="POST" enctype="multipart/form-data" class="edit-form">
+                    <div class="form-group">
+                        <label for="foto_perfil">Foto de perfil:</label>
+                        <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*">
+                        {% if usuario.foto_perfil %}
+                        <small class="current-photo">Foto actual: {{ usuario.foto_perfil }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" value="{{ usuario.apellido }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nickname">Nickname:</label>
+                        <input type="text" id="nickname" name="nickname" value="{{ usuario.nickname or '' }}" placeholder="Opcional">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Cuéntanos sobre ti (opcional)">{{ usuario.descripcion or '' }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="{{ usuario.email }}" required>
+                    </div>
+                    
+                    <a href="#" class="toggle-password" onclick="togglePassword(event)">Cambiar contraseña</a>
+                    
+                    <div id="password-fields" class="password-section" style="display: none;">
+                        <div class="form-group">
+                            <label for="password">Nueva Contraseña:</label>
+                            <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmacion">Confirmar Nueva Contraseña:</label>
+                            <input type="password" id="confirmacion" name="confirmacion" placeholder="Confirmar contraseña">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Actualizar Perfil</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        function togglePassword(event) {
+            event.preventDefault();
+            const passwordFields = document.getElementById('password-fields');
+            if (passwordFields.style.display === 'none') {
+                passwordFields.style.display = 'block';
+            } else {
+                passwordFields.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+    {% extends 'base.html' %}
+
+{% block content %}
+<div class="crear-evento-container">
+    <h1 class="page-titulo">Crear Evento</h1>
+    <form action="/formulario_evento" method="POST" enctype="multipart/form-data" class="crear-evento-form">
+
+        <div class="form-group">
+            <label for="foto_portada">Imagen de Portada:</label>
+            <input type="file" id="foto_portada" name="foto_portada" accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="fecha_evento">Fecha y Hora del Evento:</label>
+            <input type="datetime-local" id="fecha_evento" name="fecha_evento" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ubicacion">Ubicación:</label>
+            <input type="text" id="ubicacion" name="ubicacion" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="latitud">Latitud:</label>
+                <input type="number" step="0.000001" id="latitud" name="latitud">
+            </div>
+
+            <div class="form-group">
+                <label for="longitud">Longitud:</label>
+                <input type="number" step="0.000001" id="longitud" name="longitud">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+            <select id="tipo" name="tipo" required>
+                <option value="day">Día</option>
+                <option value="night">Noche</option>
+                <option value="mixed">Mixto</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="visibilidad">Visibilidad:</label>
+            <select id="visibilidad" name="visibilidad">
+                <option value="publico">Público</option>
+                <option value="seguidores">Solo Seguidores</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado">
+                <option value="act">Activo</option>
+                <option value="cancel">Cancelado</option>
+                <option value="arch">Archivado</option>
+            </select>
+        </div>
+
+        <input type="hidden" name="usuario_creador_id" value="{{ session.usuario_id }}">
+
+        <div class="form-group">
+            <label for="grupo_creador_id">Grupo Creador (opcional):</label>
+            <select id="grupo_creador_id" name="grupo_creador_id">
+                <option value="">Ninguno</option>
+                {% for grupo in mis_grupos %}
+                    <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Crear Evento" class="btn-submit">
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+<section class="grilla-eventos-section">
+    <h2 class="seccion-titulo">Algunos eventos</h2>
+    <div class="grilla-eventos">
+        {% for evento in eventos[:4] %}
+        <div class="evento-card">
+            <a href="/ver_evento/{{ evento.id }}" class="evento-link">
+                <div class="evento-imagen">
+                    {% if evento.foto_portada %}
+                    <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                    {% endif %}
+                </div>
+                <div class="evento-nombre">
+                    <span>{{ evento.nombre }}</span>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>

@@ -1,0 +1,14 @@
+<section class="grilla-semana-section">
+    <h2 class="seccion-titulo">Tus favoritos de esta semana</h2>
+    <div class="grilla-semana">
+        {% for evento in eventos[:4] %}
+        <div class="evento-card">
+            <div class="evento-imagen">
+                {% if evento.foto_portada %}
+                <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>

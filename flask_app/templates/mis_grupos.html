@@ -1,0 +1,37 @@
+    {% extends 'base.html' %}
+
+{% block content %}
+<div class="mis-grupos-container">
+    <h1 class="page-titulo">MIS GRUPOS</h1>
+    
+    {% if grupos %}
+        <div class="grupos-lista">
+        {% for grupo in grupos %}
+            <div class="grupo-card">
+                <div class="grupo-portada">
+                    {% if grupo.foto_portada %}
+                    <img src="{{ url_for('static', filename='img/grupos/' + grupo.foto_portada) }}" alt="{{ grupo.nombre }}">
+                    {% endif %}
+                </div>
+                
+                <div class="grupo-info">
+                    <h2 class="grupo-nombre"><a href="/perfil_grupo/{{ grupo.id }}">{{ grupo.nombre }}</a></h2>
+                    <p class="grupo-descripcion">{{ grupo.descripcion }}</p>
+                    
+                    <div class="grupo-stats">
+                        <span class="stat-item">{{ grupo.total_miembros }} miembros</span>
+                        <span class="separator">|</span>
+                        <span class="stat-item">{{ grupo.total_eventos }} eventos</span>
+                        <span class="separator">|</span>
+                        <a href="#" class="stat-link">Próximo evento</a>
+                        <span class="separator">|</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-grupos">No perteneces a ningún grupo.</p>
+    {% endif %}
+</div>
+{% endblock %}

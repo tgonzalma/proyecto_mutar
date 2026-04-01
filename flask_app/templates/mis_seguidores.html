@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mis-seguidores-container">
+    <h1 class="page-titulo">Tus seguidores</h1>
+    
+    <div class="seccion-usuarios">
+        <h2 class="seccion-titulo">Seguidores</h2>
+        {% if seguidores %}
+            <div class="usuarios-grid">
+            {% for seguidor in seguidores %}
+                <div class="usuario-card">
+                    <div class="usuario-foto">
+                        {% if seguidor.get('foto_perfil') %}
+                        <img src="{{ url_for('static', filename='img/usuarios/' + seguidor['foto_perfil']) }}" alt="{{ seguidor['nombre'] }}">
+                        {% else %}
+                        <div class="usuario-foto-placeholder">{{ seguidor['nombre'][0] }}</div>
+                        {% endif %}
+                    </div>
+                    <h3 class="usuario-nombre">{{ seguidor['nombre'] }} {{ seguidor['apellido'] }}</h3>
+                    {% if seguidor.get('nickname') %}
+                    <p class="usuario-nickname">@{{ seguidor['nickname'] }}</p>
+                    {% endif %}
+                    <a href="/perfil/{{ seguidor['id'] }}" class="btn-invitar">Ver perfil</a>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-usuarios">No tienes seguidores aún.</p>
+        {% endif %}
+    </div>
+
+    <div class="seccion-usuarios">
+        <h2 class="seccion-titulo">Seguidos</h2>
+        {% if seguidos %}
+            <div class="usuarios-grid">
+            {% for seguido in seguidos %}
+                <div class="usuario-card">
+                    <div class="usuario-foto">
+                        {% if seguido.get('foto_perfil') %}
+                        <img src="{{ url_for('static', filename='img/usuarios/' + seguido['foto_perfil']) }}" alt="{{ seguido['nombre'] }}">
+                        {% else %}
+                        <div class="usuario-foto-placeholder">{{ seguido['nombre'][0] }}</div>
+                        {% endif %}
+                    </div>
+                    <h3 class="usuario-nombre">{{ seguido['nombre'] }} {{ seguido['apellido'] }}</h3>
+                    {% if seguido.get('nickname') %}
+                    <p class="usuario-nickname">@{{ seguido['nickname'] }}</p>
+                    {% endif %}
+                    
+                    <div class="usuario-acciones">
+                        {% if mis_grupos %}
+                        <form action="/invitar_a_grupo" method="POST" class="invitar-form">
+                            <input type="hidden" name="usuario_id" value="{{ seguido['id'] }}">
+                            <select name="grupo_id" class="select-grupo" required>
+                                <option value="">Invitar a grupo...</option>
+                                {% for grupo in mis_grupos %}
+                                    <option value="{{ grupo.id }}">{{ grupo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn-invitar">Invitar</button>
+                        </form>
+                        {% endif %}
+                        <a href="/dejar_seguir/{{ seguido['id'] }}" class="btn-dejar-seguir">Dejar de seguir</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-usuarios">No sigues a ningún usuario.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
