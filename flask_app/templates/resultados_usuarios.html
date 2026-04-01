@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="resultados-container">
+    <h1 class="page-titulo">RESULTADOS DE BÚSQUEDA{% if termino %}: "{{ termino }}"{% endif %}</h1>
+    
+    {% if usuarios or eventos %}
+        <!-- Resultados de Usuarios -->
+        {% if usuarios %}
+        <div class="seccion-resultados">
+            <h2 class="seccion-titulo">Usuarios</h2>
+            <div class="resultados-lista">
+            {% for usuario in usuarios %}
+                <div class="resultado-card usuario-resultado">
+                    <div class="resultado-foto">
+                        <div class="foto-placeholder-circular">
+                            {% if usuario.foto_perfil %}
+                            <img src="{{ url_for('static', filename='img/usuarios/' + usuario.foto_perfil) }}" alt="{{ usuario.nombre }}">
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-info">
+                        <h3 class="resultado-nombre"><a href="{% if usuario.id == session.usuario_id %}/perfil{% else %}/perfil/{{ usuario.id }}{% endif %}">{{ usuario.nombre }} {{ usuario.apellido }}</a></h3>
+                        {% if usuario.nickname %}
+                        <p class="resultado-nickname">@{{ usuario.nickname }}</p>
+                        {% endif %}
+                        
+                        <div class="resultado-acciones">
+                            <a href="/seguir_usuario/{{ usuario.id }}" class="btn-accion">Seguir</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Resultados de Eventos -->
+        {% if eventos %}
+        <div class="seccion-resultados">
+            <h2 class="seccion-titulo">Eventos</h2>
+            <div class="resultados-lista">
+            {% for evento in eventos %}
+                <div class="resultado-card evento-resultado">
+                    <div class="resultado-portada">
+                        {% if evento.foto_portada %}
+                        <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="resultado-info">
+                        <h3 class="resultado-nombre"><a href="/ver_evento/{{ evento.id }}">{{ evento.nombre }}</a></h3>
+                        <p class="resultado-descripcion">{{ evento.descripcion }}</p>
+                        
+                        <div class="resultado-detalles">
+                            <p><strong>Fecha:</strong> {{ evento.fecha_evento.strftime('%d/%m/%Y %H:%M') }}</p>
+                            <p><strong>Ubicación:</strong> {{ evento.ubicacion }}, {{ evento.ciudad }}</p>
+                            <p><strong>Tipo:</strong> {{ evento.tipo }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+        <p class="no-resultados">No se encontraron resultados{% if termino %} para "{{ termino }}"{% endif %}.</p>
+    {% endif %}
+</div>
+{% endblock %}
