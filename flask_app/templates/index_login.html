@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/side_bar.css">
+    <title>Mutar</title>
+</head>
+
+<body>
+    <div class="page-container">
+
+    {% set current_page = 'login' %}
+    {% include 'partials/side_nav.html' %}
+        
+        <main class="main-content">
+            {% with mensajes = get_flashed_messages(category_filter=['login']) %}
+                {% if mensajes  %}
+                    <ul>
+                        {% for mensaje in mensajes%}
+                            <li>{{mensaje}}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <h2>LOGIN</h2>
+            <form action="/login" method="POST">
+                <div>
+                    <label>Mail:</label>
+                    <input type="email" name="email">
+                </div>
+                <div>
+                    <label>Contraseña:</label>
+                    <input type="password" name="password">
+                </div>
+                <input type="submit" value="Entrar">
+            </form>
+        </main>
+    </div>
+</body>
+
+</html>
