@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="perfil-grupo-container">
+    <div class="grupo-header-actions">
+        <h1 class="grupo-titulo">{{ grupo.nombre }}</h1>
+        {% if grupo.creador_grupo_id == session.usuario_id %}
+        <a href="/editar_grupo/{{ grupo.id }}" class="btn-editar-grupo">Editar Grupo</a>
+        {% endif %}
+    </div>
+    
+    <div class="grupo-layout">
+        <!-- Columna izquierda -->
+        <div class="grupo-main">
+            <div class="perfil-grupo-portada">
+                {% if grupo.foto_portada %}
+                <img src="{{ url_for('static', filename='img/grupos/' + grupo.foto_portada) }}" alt="{{ grupo.nombre }}">
+                {% endif %}
+            </div>
+            
+            <div class="grupo-seccion">
+                <h3 class="seccion-titulo">Descripción</h3>
+                <p class="seccion-texto">{{ grupo.descripcion|replace('\n', '<br>')|safe }}</p>
+            </div>
+            
+            <div class="grupo-seccion">
+                <h3 class="seccion-titulo">Mensajes del Grupo</h3>
+                
+                {% if es_miembro %}
+                <form action="/crear_mensaje_grupo/{{ grupo.id }}" method="POST" class="mensaje-form">
+                    <textarea name="mensaje" maxlength="200" placeholder="Escribe un mensaje (máx. 200 caracteres)" rows="2" required></textarea>
+                    <div class="mensaje-form-actions">
+                        <span class="char-counter">0/200</span>
+                        <button type="submit" class="btn-enviar-mensaje">Enviar</button>
+                    </div>
+                </form>
+                {% endif %}
+                
+                <div class="notificaciones-lista">
+                    {% if mensajes %}
+                        {% for mensaje in mensajes %}
+                        <div class="notificacion-item">
+                            <div class="mensaje-izquierda">
+
+                                <span class="mensaje-autor">
+                                    {% if mensaje.usuario_nickname %}
+                                        @{{ mensaje.usuario_nickname }}
+                                    {% else %}
+                                        {{ mensaje.usuario_nombre }} {{ mensaje.usuario_apellido }}
+                                    {% endif %}
+                                </span>
+                                <span class="notificacion-tiempo">{{ mensaje.created_at.strftime('%d/%m %H:%M') }}</span>
+                            </div>
+                            <div class="mensaje-derecha">
+                                <p class="notificacion-texto">{{ mensaje.mensaje }}</p>
+                                {% if mensaje.usuario_id == session.usuario_id %}
+                                <a href="/eliminar_mensaje_grupo/{{ mensaje.id }}/{{ grupo.id }}" class="btn-eliminar-mensaje" onclick="return confirm('¿Eliminar este mensaje?')">×</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-mensajes">No hay mensajes aún. {% if es_miembro %}¡Sé el primero en escribir!{% endif %}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="grupo-tabs">
+                <button class="tab-btn active" onclick="mostrarTabGrupo('proximos-eventos')">Próximos eventos</button>
+                <span class="tab-separator">|</span>
+                <button class="tab-btn" onclick="mostrarTabGrupo('eventos-grupo')">Eventos del grupo</button>
+                <span class="tab-separator">|</span>
+            </div>
+            
+            <div class="grupo-eventos-content">
+                <!-- Próximos Eventos -->
+                <div id="proximos-eventos" class="tab-content-grupo active">
+                    <div class="eventos-grid-grupo">
+                        <!-- Placeholder para próximos eventos -->
+                        <div class="evento-card-placeholder"></div>
+                        <div class="evento-card-placeholder"></div>
+                        <div class="evento-card-placeholder"></div>
+                    </div>
+                </div>
+                
+                <!-- Eventos del Grupo -->
+                <div id="eventos-grupo" class="tab-content-grupo">
+                    {% if eventos_creados %}
+                        <div class="eventos-grid-grupo">
+                        {% for evento in eventos_creados %}
+                            <a href="/ver_evento/{{ evento.id }}" class="evento-card-link-grupo">
+                                <div class="evento-card-grupo">
+                                    {% if evento.foto_portada %}
+                                    <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                                    {% endif %}
+                                </div>
+                            </a>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="no-eventos-grupo">Este grupo no ha creado eventos.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Columna derecha -->
+        <div class="grupo-sidebar">
+            <div class="stats-card">
+                <p class="stat-line">{{ total_miembros }} miembros</p>
+                <p class="stat-line">{{ total_eventos }} eventos creados</p>
+                <p class="stat-fecha">Creado en {{ grupo.created_at.strftime('%B, %Y') }}</p>
+            </div>
+            
+            <div class="sidebar-card">
+                <h3 class="sidebar-titulo">Miembros del grupo</h3>
+                <div class="miembros-lista">
+                    {% if miembros %}
+                        {% for miembro in miembros %}
+                        <a href="{% if miembro['id'] == session.usuario_id %}/perfil{% else %}/perfil/{{ miembro['id'] }}{% endif %}" class="miembro-link">{{ miembro['nombre'] }} {{ miembro['apellido'] }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-items">No hay miembros</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="sidebar-card">
+                <h3 class="sidebar-titulo">Eventos favoritos del grupo</h3>
+                <div class="favoritos-lista">
+                    {% if eventos_favoritos %}
+                        {% for evento in eventos_favoritos %}
+                        <a href="/ver_evento/{{ evento['id'] }}" class="favorito-link">{{ evento['nombre'] }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-items">No hay eventos favoritos</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function mostrarTabGrupo(tabId) {
+    // Ocultar todos los contenidos
+    document.querySelectorAll('.tab-content-grupo').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Desactivar todos los botones
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Mostrar el contenido seleccionado
+    document.getElementById(tabId).classList.add('active');
+    
+    // Activar el botón seleccionado
+    event.target.classList.add('active');
+}
+</script>
+{% endblock %}
