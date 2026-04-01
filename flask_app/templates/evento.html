@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="evento-detalle">
+    <div class="evento-header-actions">
+        <h1 class="evento-titulo">{{ evento.nombre }}</h1>
+        {% if evento.usuario_creador_id == session.usuario_id %}
+        <a href="/editar_evento/{{ evento.id }}" class="btn-editar-evento">Editar Evento</a>
+        {% endif %}
+    </div>
+    
+    <div class="evento-portada">
+        {% if evento.foto_portada %}
+        <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+        {% else %}
+        <div class="portada-placeholder">IMAGEN PORTADA EVENTO</div>
+        {% endif %}
+    </div>
+    
+    <div class="evento-info">
+        <div class="info-seccion">
+            <h3>Descripción</h3>
+            <p>{{ evento.descripcion }}</p>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Lugar:</span>
+                <span class="info-valor">{{ evento.ubicacion }}, {{ evento.ciudad }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Fecha:</span>
+                <span class="info-valor">{{ evento.fecha_evento.strftime('%d/%m/%Y') if evento.fecha_evento else 'No especificada' }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Hora:</span>
+                <span class="info-valor">{{ evento.fecha_evento.strftime('%H:%M') if evento.fecha_evento else 'No especificada' }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Creado por:</span>
+                <span class="info-valor">{{ evento.creador_nombre }}</span>
+            </div>
+        </div>
+        
+        <div class="info-seccion notificaciones">
+            <h3>Notificaciones del creador:</h3>
+            
+            {% if es_creador %}
+            <form action="/crear_mensaje_evento/{{ evento.id }}" method="POST" class="mensaje-form">
+                <textarea name="mensaje" maxlength="200" placeholder="Escribe una notificación (máx. 200 caracteres)" rows="2" required></textarea>
+                <div class="mensaje-form-actions">
+                    <span class="char-counter">0/200</span>
+                    <button type="submit" class="btn-enviar-mensaje">Enviar</button>
+                </div>
+            </form>
+            {% endif %}
+            
+            <div class="notificaciones-lista">
+                {% if mensajes %}
+                    {% for mensaje in mensajes %}
+                    <div class="notificacion-item">
+                        <div class="mensaje-izquierda">
+                            <span class="notificacion-tiempo">{{ mensaje.created_at.strftime('%d/%m %H:%M') }}</span>
+                        </div>
+                        <div class="mensaje-derecha">
+                            <p class="notificacion-texto">{{ mensaje.mensaje }}</p>
+                            {% if es_creador %}
+                            <a href="/eliminar_mensaje_evento/{{ mensaje.id }}/{{ evento.id }}" class="btn-eliminar-mensaje" onclick="return confirm('¿Eliminar esta notificación?')">×</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-mensajes">No hay notificaciones. {% if es_creador %}¡Publica la primera!{% endif %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Contador de caracteres para el mensaje
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.querySelector('.mensaje-form textarea');
+    const counter = document.querySelector('.char-counter');
+    
+    if (textarea && counter) {
+        textarea.addEventListener('input', function() {
+            counter.textContent = this.value.length + '/200';
+        });
+    }
+});
+</script>
+{% endblock %}
