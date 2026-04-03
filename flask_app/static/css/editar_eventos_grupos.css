@@ -1,0 +1,54 @@
+/* Estilos compartidos para editar evento y editar grupo */
+.preview-img {
+    margin-bottom: 15px;
+    max-width: 300px;
+}
+
+.preview-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.form-group small {
+    display: block;
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 6px;
+    font-family: "Science Gothic", sans-serif;
+}
+
+.btn-cancelar {
+    display: inline-block;
+    padding: 14px 40px;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    font-size: 18px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.alert {
+    background-color: rgba(255, 100, 100, 0.2);
+    border: 1px solid rgba(255, 100, 100, 0.4);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 3px;
+    margin-bottom: 25px;
+}
+
+.alert p {
+    margin: 0;
+    font-family: "Science Gothic", sans-serif;
+}

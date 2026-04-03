@@ -1,0 +1,77 @@
+/* Grilla de algunos eventos */
+.grilla-eventos-section {
+    margin-bottom: 60px;
+}
+
+.grilla-eventos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 3px;
+}
+
+.grilla-eventos .evento-card {
+    aspect-ratio: 4 / 3;
+    background-color: #000;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.grilla-eventos .evento-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    position: relative;
+}
+
+.grilla-eventos .evento-imagen {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+.grilla-eventos .evento-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.grilla-eventos .evento-nombre {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 12px 15px;
+    color: #fff;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.grilla-eventos .evento-link:hover .evento-nombre {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .grilla-eventos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .grilla-eventos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .grilla-eventos {
+        grid-template-columns: 1fr;
+    }
+}

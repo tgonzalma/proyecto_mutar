@@ -1,0 +1,14 @@
+/* Página de Crear Grupo - mismo estilo que crear evento */
+.crear-grupo-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.crear-grupo-form {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 3px;
+}
+
+/* Reutilizamos las mismas clases que crear_evento.css para consistencia */

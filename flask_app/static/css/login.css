@@ -1,0 +1,109 @@
+/* Login Page */
+body {
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    font-family: "Science Gothic", sans-serif;
+}
+
+.page-container {
+    display: flex;
+    height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.main-content h2 {
+    color: #fff;
+    font-size: 48px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    letter-spacing: 2px;
+}
+
+.main-content form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.main-content form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-content label {
+    color: #fff;
+    font-size: 16px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 400;
+}
+
+.main-content input[type="email"],
+.main-content input[type="password"] {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #000;
+    font-family: "Science Gothic", sans-serif;
+    box-sizing: border-box;
+}
+
+.main-content input[type="email"]:focus,
+.main-content input[type="password"]:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.main-content input[type="submit"] {
+    padding: 15px 40px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    font-size: 18px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+    margin-top: 20px;
+}
+
+.main-content input[type="submit"]:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.main-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.main-content ul li {
+    color: #ff6b6b;
+    font-size: 14px;
+    font-family: "Science Gothic", sans-serif;
+    padding: 10px 15px;
+    background-color: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
