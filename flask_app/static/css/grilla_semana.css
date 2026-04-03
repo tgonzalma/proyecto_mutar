@@ -1,0 +1,59 @@
+/* Grilla de favoritos de la semana */
+.grilla-semana-section {
+    margin-bottom: 60px;
+}
+
+.seccion-titulo {
+    color: #fff;
+    font-size: 24px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+.grilla-semana {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 3px;
+}
+
+.grilla-semana .evento-card {
+    aspect-ratio: 4 / 3;
+    background-color: #000;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.grilla-semana .evento-imagen {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+.grilla-semana .evento-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .grilla-semana {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .grilla-semana {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .grilla-semana {
+        grid-template-columns: 1fr;
+    }
+}
