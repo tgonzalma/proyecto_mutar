@@ -1,0 +1,206 @@
+/* Página Mis Seguidores */
+.mis-seguidores-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.page-titulo {
+    color: #fff;
+    font-size: 42px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.seccion-usuarios {
+    margin-bottom: 60px;
+}
+
+.seccion-titulo {
+    color: #fff;
+    font-size: 32px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 600;
+    margin: 0 0 30px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.usuarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.usuario-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.3s;
+}
+
+.usuario-card:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.usuario-foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.usuario-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.usuario-foto-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #666;
+    font-family: "Science Gothic", sans-serif;
+}
+
+.usuario-nombre {
+    color: #fff;
+    font-size: 20px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
+.usuario-nickname {
+    color: #aaa;
+    font-size: 15px;
+    font-family: "Science Gothic", sans-serif;
+    margin: 0;
+}
+
+.usuario-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.invitar-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.select-grupo {
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 3px;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.select-grupo:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-invitar {
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 3px;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-invitar:hover {
+    opacity: 0.8;
+}
+
+.btn-dejar-seguir {
+    color: #ff6b6b;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    padding: 8px;
+    transition: opacity 0.3s;
+    display: block;
+}
+
+.btn-dejar-seguir:hover {
+    opacity: 0.7;
+}
+
+.no-usuarios {
+    color: #ddd;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 18px;
+    text-align: center;
+    padding: 40px;
+}
+
+.volver-link {
+    display: inline-block;
+    margin-top: 40px;
+    color: #fff;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 12px 30px;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    transition: all 0.3s;
+}
+
+.volver-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mis-seguidores-container {
+        padding: 10px;
+    }
+    
+    .page-titulo {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+    
+    .seccion-titulo {
+        font-size: 24px;
+    }
+    
+    .usuarios-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}

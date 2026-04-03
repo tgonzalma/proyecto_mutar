@@ -1,0 +1,88 @@
+/* Search bars styling */
+
+/* Search eventos section */
+.search-eventos {
+    margin-bottom: 30px;
+}
+
+.search-eventos form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-eventos input[type="search"],
+.search-usuarios input[type="search"] {
+    flex: 1;
+    padding: 12px 20px;
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #000;
+}
+
+.search-eventos input[type="search"]:focus,
+.search-usuarios input[type="search"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #555;
+}
+
+.search-eventos button,
+.search-usuarios button {
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+.search-eventos button:hover,
+.search-usuarios button:hover {
+    opacity: 0.8;
+}
+
+/* Categories section */
+.categorias {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.categorias a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 400;
+    transition: opacity 0.3s;
+}
+
+.categorias a:hover {
+    opacity: 0.7;
+}
+
+.categorias .separator {
+    color: #fff;
+    font-size: 18px;
+    user-select: none;
+}
+
+/* Search usuarios section */
+.search-usuarios {
+    margin-bottom: 30px;
+}
+
+.search-usuarios form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
