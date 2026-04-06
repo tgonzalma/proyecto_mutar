@@ -133,3 +133,29 @@
         width: 100%;
     }
 }
+
+#validar-direccion {
+    margin-top: 12px;
+    padding: 10px 22px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    font-size: 15px;
+    font-family: "Science Gothic", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+#validar-direccion:hover {
+    opacity: 0.85;
+}
+
+#estado-mapa {
+    margin-top: 10px;
+    color: #ffffff;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}

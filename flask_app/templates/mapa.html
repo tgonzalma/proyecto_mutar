@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mapa-container">
+    <h1 class="page-titulo">MAPA EVENTOS FAVORITOS</h1>
+    <div id="mapa-eventos" style="height: 500px; width: 100%;"></div>
+</div>
+
+<script id="eventos-data" type="application/json">
+    {{ eventos | tojson }}
+</script>
+
+<script>
+    window.GOOGLE_MAPS_MAP_ID = {{ google_maps_map_id | tojson }};
+</script>
+
+<script src="{{ url_for('static', filename='js/mapa.js') }}"></script>
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMapaEventos&v=weekly&libraries=marker"
+></script>
+{% endblock %}

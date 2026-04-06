@@ -1,14 +1,23 @@
 <section class="grilla-semana-section">
     <h2 class="seccion-titulo">Tus favoritos de esta semana</h2>
     <div class="grilla-semana">
-        {% for evento in eventos[:4] %}
+        {% for evento in favoritos_semana %}
         <div class="evento-card">
-            <div class="evento-imagen">
-                {% if evento.foto_portada %}
-                <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
-                {% endif %}
-            </div>
+            <a href="/ver_evento/{{ evento.id }}" class="evento-link">
+                <div class="evento-imagen">
+                    {% if evento.foto_portada %}
+                    <img src="{{ url_for('static', filename='img/eventos/' + evento.foto_portada) }}" alt="{{ evento.nombre }}">
+                    {% endif %}
+                </div>
+                <div class="evento-nombre">
+                    <span>{{ evento.nombre }}</span>
+                </div>
+            </a>
         </div>
         {% endfor %}
+
+        {% if not favoritos_semana %}
+        <p class="sin-favoritos-semana">No tienes eventos marcados como favoritos para esta semana.</p>
+        {% endif %}
     </div>
 </section>

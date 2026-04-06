@@ -2,16 +2,30 @@ from flask import render_template, redirect, request, session, flash
 from flask_app import app
 from flask_app.models.grupo import Grupo
 from flask_app.models.mensaje_evento import MensajeEvento
+import os
+
 
 @app.route('/crear_evento')
 def crear_evento():
     if 'usuario_id' not in session:
         return redirect('/')
+
     mis_grupos = Grupo.obtener_grupos_por_usuario({'usuario_id': session['usuario_id']})
-    return render_template('crear_evento.html', mis_grupos=mis_grupos)
+
+    return render_template(
+        'crear_evento.html',
+        mis_grupos=mis_grupos,
+        google_maps_api_key=os.getenv("GOOGLE_MAPS_API_KEY"),
+        google_maps_map_id=os.getenv("GOOGLE_MAPS_MAP_ID", "DEMO_MAP_ID")
+    )
 
 @app.route('/formulario_evento', methods=['POST'])
 def formulario_evento():
+
+    print("FORM DATA:", request.form)
+    print("LATITUD:", request.form.get('latitud'))
+    print("LONGITUD:", request.form.get('longitud'))
+
     if 'usuario_id' not in session:
         return redirect('/')
     
@@ -32,6 +46,10 @@ def formulario_evento():
             timestamp = str(int(__import__('time').time()))
             foto_portada = f"{timestamp}_{filename}"
             file.save(os.path.join(upload_folder, foto_portada))
+            
+    if not request.form.get('latitud') or not request.form.get('longitud'):
+        flash('Debes validar la dirección en el mapa antes de crear el evento.', 'error')
+        return redirect('/crear_evento')
     
     datos_evento = {
         "nombre": request.form['nombre'],

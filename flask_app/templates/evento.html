@@ -4,9 +4,14 @@
 <div class="evento-detalle">
     <div class="evento-header-actions">
         <h1 class="evento-titulo">{{ evento.nombre }}</h1>
-        {% if evento.usuario_creador_id == session.usuario_id %}
-        <a href="/editar_evento/{{ evento.id }}" class="btn-editar-evento">Editar Evento</a>
-        {% endif %}
+
+        <div class="evento-acciones">
+            <a href="/evento_favorito/{{ evento.id }}" class="btn-favorito-evento">Agregar a favoritos</a>
+
+            {% if evento.usuario_creador_id == session.usuario_id %}
+            <a href="/editar_evento/{{ evento.id }}" class="btn-editar-evento">Editar Evento</a>
+            {% endif %}
+    </div>
     </div>
     
     <div class="evento-portada">

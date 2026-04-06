@@ -27,7 +27,13 @@
                         {% endif %}
                         
                         <div class="resultado-acciones">
-                            <a href="/seguir_usuario/{{ usuario.id }}" class="btn-accion">Seguir</a>
+                            {% if usuario.id != session.usuario_id %}
+                                {% if usuario.id in seguidos_ids %}
+                                <a href="/dejar_seguir/{{ usuario.id }}?redirect_to={{ redirect_to|urlencode }}" class="btn-dejar-seguir-perfil">Dejar de seguir</a>
+                                {% else %}
+                                <a href="/seguir_usuario/{{ usuario.id }}?redirect_to={{ redirect_to|urlencode }}" class="btn-accion">Seguir</a>
+                                {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
