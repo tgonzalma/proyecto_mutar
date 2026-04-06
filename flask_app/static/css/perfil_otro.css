@@ -81,6 +81,11 @@
 .perfil-acciones {
     display: flex;
     gap: 15px;
+    align-items: flex-start;
+}
+
+.invitar-grupo-wrapper {
+    position: relative;
 }
 
 .btn-seguir,
@@ -111,6 +116,48 @@
 
 .btn-dejar-seguir-perfil:hover {
     opacity: 0.9;
+}
+
+.invitar-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 220px;
+    background-color: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    z-index: 20;
+}
+
+.invitar-dropdown.oculto {
+    display: none;
+}
+
+.invitar-item-form {
+    margin: 0;
+}
+
+.invitar-dropdown-item {
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 12px 14px;
+    font-family: "Science Gothic", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    text-align: left;
+    transition: background-color 0.2s ease;
+}
+
+.invitar-dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.invitar-item-form + .invitar-item-form {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .perfil-tabs {
@@ -196,7 +243,18 @@
     }
     
     .perfil-acciones {
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
+    }
+
+    .invitar-grupo-wrapper {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .invitar-dropdown {
+        width: 100%;
     }
     
     .perfil-content {

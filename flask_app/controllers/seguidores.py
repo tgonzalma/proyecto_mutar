@@ -13,6 +13,9 @@ def seguir_usuario(usuario_id):
         'usuario_seguido_id': usuario_id
     }
     Seguidor.seguir(datos)
+    redirect_to = request.args.get('redirect_to')
+    if redirect_to:
+        return redirect(redirect_to)
     return redirect(f'/mis_seguidores')
 
 @app.route('/mis_seguidores')
@@ -37,4 +40,9 @@ def dejar_seguir(usuario_id):
         'usuario_seguido_id': usuario_id
     }
     Seguidor.dejar_de_seguir(datos)
+    redirect_to = request.args.get('redirect_to')
+    if redirect_to:
+        return redirect(redirect_to)
+    if request.args.get('from') == 'perfil':
+        return redirect(f'/perfil/{usuario_id}')
     return redirect('/mis_seguidores')

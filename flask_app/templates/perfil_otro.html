@@ -27,7 +27,23 @@
                 {% else %}
                 <a href="/seguir_usuario/{{ usuario.id }}" class="btn-seguir">Seguir</a>
                 {% endif %}
-                <button class="btn-invitar">Invitar a grupo</button>
+
+                {% if mis_grupos %}
+                <div class="invitar-grupo-wrapper">
+                    <button type="button" class="btn-invitar" id="toggle-invitar-grupo" aria-expanded="false" aria-controls="invitar-grupo-menu">Invitar a grupo</button>
+
+                    <div class="invitar-dropdown oculto" id="invitar-grupo-menu">
+                        {% for grupo in mis_grupos %}
+                        <form action="/invitar_a_grupo" method="POST" class="invitar-item-form">
+                            <input type="hidden" name="usuario_id" value="{{ usuario.id }}">
+                            <input type="hidden" name="redirect_to" value="/perfil/{{ usuario.id }}">
+                            <input type="hidden" name="grupo_id" value="{{ grupo.id }}">
+                            <button type="submit" class="invitar-dropdown-item">{{ grupo.nombre }}</button>
+                        </form>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -56,4 +72,33 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggle-invitar-grupo');
+    const inviteMenu = document.getElementById('invitar-grupo-menu');
+    const inviteWrapper = document.querySelector('.invitar-grupo-wrapper');
+
+    if (!toggleButton || !inviteMenu || !inviteWrapper) {
+        return;
+    }
+
+    toggleButton.addEventListener('click', function(event) {
+        event.stopPropagation();
+        inviteMenu.classList.toggle('oculto');
+        toggleButton.setAttribute('aria-expanded', String(!inviteMenu.classList.contains('oculto')));
+    });
+
+    inviteMenu.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!inviteWrapper.contains(event.target)) {
+            inviteMenu.classList.add('oculto');
+            toggleButton.setAttribute('aria-expanded', 'false');
+        }
+    });
+});
+</script>
 {% endblock %}

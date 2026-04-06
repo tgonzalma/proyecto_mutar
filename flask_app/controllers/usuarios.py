@@ -2,6 +2,8 @@ from flask import render_template, redirect, request, session, flash
 from flask_app import app
 from flask_app.models.usuario import Usuario
 from flask_app.models.evento import Evento
+from flask_app.models.grupo import Grupo
+from flask_app.models.seguidor import Seguidor
 from flask_app import bcrypt
 
 @app.route('/')
@@ -76,10 +78,24 @@ def registrar_usuario():
 
 @app.route('/buscar_usuarios')
 def buscar_usuarios():
+    if 'usuario_id' not in session:
+        return redirect('/')
+
     termino = request.args.get('q', '')
     usuarios_encontrados = Usuario.buscar_por_email_o_nombre(termino)
     eventos_encontrados = Evento.buscar(termino)
-    return render_template('resultados_usuarios.html', usuarios=usuarios_encontrados, eventos=eventos_encontrados, termino=termino)
+    seguidos = Seguidor.obtener_seguidos({'usuario_id': session['usuario_id']})
+    seguidos_ids = {seguido['id'] for seguido in seguidos}
+    redirect_to = request.full_path[:-1] if request.full_path.endswith('?') else request.full_path
+
+    return render_template(
+        'resultados_usuarios.html',
+        usuarios=usuarios_encontrados,
+        eventos=eventos_encontrados,
+        termino=termino,
+        seguidos_ids=seguidos_ids,
+        redirect_to=redirect_to
+    )
 
 @app.route('/perfil')
 def perfil():
@@ -120,6 +136,7 @@ def perfil_otro(usuario_id):
         'usuario_id': usuario_id
     }
     eventos_creados = Evento.obtener_eventos_por_usuario(datos_eventos)
+    mis_grupos = Grupo.obtener_grupos_por_usuario({'usuario_id': session['usuario_id']})
     
     # Verificar si el usuario actual ya sigue a este usuario
     from flask_app.models.seguidor import Seguidor
@@ -129,7 +146,14 @@ def perfil_otro(usuario_id):
     }
     esta_siguiendo = Seguidor.esta_siguiendo(datos_seguidor)
     
-    return render_template('perfil_otro.html', usuario=usuario, eventos_creados=eventos_creados, usuario_actual=usuario_actual, esta_siguiendo=esta_siguiendo)
+    return render_template(
+        'perfil_otro.html',
+        usuario=usuario,
+        eventos_creados=eventos_creados,
+        usuario_actual=usuario_actual,
+        esta_siguiendo=esta_siguiendo,
+        mis_grupos=mis_grupos
+    )
 
 @app.route('/editar_perfil')
 def editar_perfil():

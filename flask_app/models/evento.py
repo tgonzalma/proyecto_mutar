@@ -196,6 +196,58 @@ class Evento:
         for evento in resultados:
             eventos.append(cls(evento))
         return eventos
+    
+    @classmethod
+    def get_all_con_coordenadas(cls):
+        query = """
+                SELECT * FROM eventos
+                WHERE latitud IS NOT NULL
+                AND longitud IS NOT NULL;
+        """
+        resultados = connectToMySQL(db).query_db(query)
+        eventos = []
+        for evento in resultados:
+            eventos.append(cls(evento))
+        return eventos
+    
+    @classmethod
+    def get_favoritos_con_coordenadas(cls, datos):
+        query = """
+                SELECT eventos.*
+                FROM eventos
+                JOIN favoritos_usuario
+                    ON eventos.id = favoritos_usuario.evento_id
+                WHERE favoritos_usuario.usuario_id = %(usuario_id)s
+                AND eventos.latitud IS NOT NULL
+                AND eventos.longitud IS NOT NULL
+                ORDER BY eventos.created_at DESC;
+        """
+        resultados = connectToMySQL(db).query_db(query, datos)
+
+        eventos = []
+        for evento in resultados:
+            eventos.append(cls(evento))
+        return eventos
+
+    @classmethod
+    def get_favoritos_proximos_aleatorios(cls, datos):
+        query = """
+                SELECT eventos.*
+                FROM eventos
+                JOIN favoritos_usuario
+                    ON eventos.id = favoritos_usuario.evento_id
+                WHERE favoritos_usuario.usuario_id = %(usuario_id)s
+                AND eventos.estado = 'act'
+                AND eventos.fecha_evento BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 7 DAY)
+                ORDER BY RAND()
+                LIMIT %(cantidad)s;
+        """
+        resultados = connectToMySQL(db).query_db(query, datos)
+
+        eventos = []
+        for evento in resultados:
+            eventos.append(cls(evento))
+        return eventos
 
     @staticmethod
     def validar_evento(datos):
@@ -207,3 +259,4 @@ class Evento:
             flash('La descripción del evento debe tener al menos 10 caracteres', 'evento')
             es_valido = False
         return es_valido
+    
